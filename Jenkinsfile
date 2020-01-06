@@ -33,7 +33,7 @@ pipeline {
                     steps {
                         dir('backend') {
                             sh 'docker build . -t backend'
-                            sh 'docker tag backend gcr.io/negainoido-icfpc-platform/backend:lastes'
+                            sh 'docker tag backend gcr.io/negainoido-icfpc-platform/backend:latest'
                             sh 'docker push gcr.io/negainoido-icfpc-platform/backend:latest'
                         }
                     }
