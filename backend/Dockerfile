@@ -13,4 +13,5 @@ RUN pipenv install
 
 ENV FLASK_ENV=production
 COPY uwsgi.ini .
+COPY main.py .
 CMD ["pipenv", "run", "uwsgi", "uwsgi.ini"]
