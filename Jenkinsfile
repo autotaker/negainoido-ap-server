@@ -43,15 +43,27 @@ pipeline {
 
         
         stage('deploy') {
-            agent {
-                label 'slave-1'
-            }
-            steps {
-                withCredentials([sshUserPrivateKey(credentialsId: 'jenkins-user', 
-                                 keyFileVariable: 'identity', 
-                                 passphraseVariable: '', 
-                                 usernameVariable: 'userName')]) {
-                    sh "scp -i ${identity} -r frontend/build/* ${userName}@10.146.0.10:/var/www/html/"
+            parallel { 
+                stage('deploy-frontend') {
+                    agent {
+                        label 'slave-1'
+                    }
+                    steps {
+                        withCredentials([sshUserPrivateKey(credentialsId: 'jenkins-user', 
+                                         keyFileVariable: 'identity', 
+                                         passphraseVariable: '', 
+                                         usernameVariable: 'userName')]) {
+                            sh "scp -i ${identity} -r frontend/build/* ${userName}@10.146.0.10:/var/www/html/"
+                        }
+                    }
+                }
+                stage('deploy-backend') {
+                    agent {
+                        label 'slave-1'
+                    }
+                    steps {
+                        sh 'gcloud beta  --project negainoido-icfpc-platform run deploy backend --image gcr.io/negainoido-icfpc-platform/backend:latest --platform managed --region asia-northeast1'
+                    }
                 }
             }
         }
