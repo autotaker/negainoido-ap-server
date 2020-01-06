@@ -6,7 +6,7 @@ ENV PIPENV_VENV_IN_PROJECT=1
 WORKDIR /app
 
 COPY Pipfile .
-COPY Pipefile.lock .
+COPY Pipfile.lock .
 RUN pipenv install
 
 ENV FLASK_ENV=production
