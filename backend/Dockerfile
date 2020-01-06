@@ -1,6 +1,6 @@
 FROM python:3.7-slim-stretch
 
-RUN sudo apt-get install -y build-essential
+RUN apt-get install -y build-essential
 
 RUN pip install pipenv
 ENV PIPENV_VENV_IN_PROJECT=1
