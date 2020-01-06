@@ -1,4 +1,4 @@
-FROM 3.7-slim-stretch
+FROM python/3.7-slim-stretch
 
 RUN pip install pipenv
 ENV PIPENV_VENV_IN_PROJECT=1
