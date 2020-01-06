@@ -10,20 +10,37 @@ pipeline {
             }
         }
         stage('build') {
-            agent {
-                docker {
-                    image 'node'
-                    label 'slave-1'
-                    args '-e HOME=/home/jenkins -v /home/jenkins:/home/jenkins'
+            parallel {
+                stage('frontend') {
+                    agent {
+                        docker {
+                            image 'node'
+                            label 'slave-1'
+                            args '-e HOME=/home/jenkins -v /home/jenkins:/home/jenkins'
+                        }
+                    }
+                    steps {
+                        dir('frontend') {
+                            sh 'npm install --no-audit'
+                            sh 'npm run build'
+                        }
+                    }
                 }
-            }
-            steps {
-                dir('frontend') {
-                    sh 'npm install --no-audit'
-                    sh 'npm run build'
+                stage('backend') {
+                    agent {
+                        label 'slave-1'
+                    }
+                    steps {
+                        dir('backend') {
+                            sh 'docker build . -t backend'
+                            sh 'docker tag backend gcr.io/negainoido-icfpc-platform/backend:lastes'
+                            sh 'docker push gcr.io/negainoido-icfpc-platform/backend:latest'
+                        }
+                    }
                 }
             }
         }
+
         
         stage('deploy') {
             agent {
