@@ -57,7 +57,7 @@ pipeline {
                             usernamePassword(credentialsId: 'negainoido-mysql',
                                                 usernameVariable: 'DB_USER',
                                                 passwordVariable: 'DB_PASS')]) {
-                            sh "ch /app; DB_USER=$DB_USER DB_PASS=$DB_PASS pipenv run python ${workspace}/backend/icfpc2019/sql/dbapply.py"
+                            sh "cd /app; DB_USER=$DB_USER DB_PASS=$DB_PASS pipenv run bash -c 'cd ${workspace}/backend/icfpc2019/sql/; python dbapply.py'"
                         }
                     }
                 }
