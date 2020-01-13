@@ -52,7 +52,7 @@ pipeline {
                     sh 'wget https://dl.google.com/cloudsql/cloud_sql_proxy.linux.amd64 -O cloud_sql_proxy'
                     sh 'chmod +x cloud_sql_proxy'
                     sh './cloud_sql_proxy -instances=negainoido-icfpc-platform:asia-northeast1:mysql-negainoido=tcp:3306 &'
-                    docker.image('backend').inside('--network host') {}
+                    docker.image('backend').inside('--network host') {
                         withCredentials([
                             usernamePassword(credentialsId: 'negainoido-mysql',
                                                 usernameVariable: 'DB_USER',
