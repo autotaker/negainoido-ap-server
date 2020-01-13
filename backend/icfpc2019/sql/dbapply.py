@@ -51,7 +51,7 @@ def get_current_version(script_id : str) -> Tuple[int, int]:
     try:
         cur.execute('''SELECT `version`, `release` FROM apply_history
                 WHERE script_id = %s
-                ORDER BY version DESC, release DESC
+                ORDER BY `version` DESC, `release` DESC
                 LIMIT 1
         ''', (script_id,))
         row = cur.fetchone()
