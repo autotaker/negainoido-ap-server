@@ -59,7 +59,7 @@ pipeline {
                             dir('backend/icfpc2019/sql') {
                                 withCredentials([
                                     usernamePassword(credentialsId: 'negainoido-mysql',
-                                                     usernameVariable: 'DB_USER'
+                                                     usernameVariable: 'DB_USER',
                                                      passwordVariable: 'DB_PASS')]) {
                                     sh "DB_USER=$DB_USER DB_PASS=$DB_PASS pipenv run python dbapply.py"
                                 }
