@@ -10,7 +10,7 @@ DB_HOST = os.getenv('DB_HOST') or 'localhost'
 DB_PORT = os.getenv('DB_PORT') or '3306'
 DB_NAME = os.getenv('DB_NAME') or 'icfpc2019'
 DB_USER = os.getenv('DB_USER')  or  'negainoido'
-DB_PASS = os.getenv('DB_PASSW') or 'negainoido'
+DB_PASS = os.getenv('DB_PASS') or 'negainoido'
 
 conn = db.connect(
     host=DB_HOST,
