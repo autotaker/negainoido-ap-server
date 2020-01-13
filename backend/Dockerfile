@@ -13,5 +13,6 @@ RUN pipenv install
 
 ENV FLASK_ENV=production
 COPY uwsgi.ini .
+COPY icfpc2019/app.py ./icfpc2019/app.py
 COPY main.py .
 CMD ["pipenv", "run", "uwsgi", "uwsgi.ini"]

@@ -11,6 +11,7 @@ flask = "*"
 uwsgi = "*"
 mysql-connector-python = "*"
 pyyaml = "*"
+werkzeug = "*"
 
 [requires]
 python_version = "3.7"

@@ -9,7 +9,7 @@ from collections import OrderedDict
 DB_HOST = os.getenv('DB_HOST') or 'localhost'
 DB_PORT = os.getenv('DB_PORT') or '3306'
 DB_NAME = os.getenv('DB_NAME') or 'icfpc2019'
-DB_USER = os.getenv('DB_USER')  or  'negainoido'
+DB_USER = os.getenv('DB_USER') or  'negainoido'
 DB_PASS = os.getenv('DB_PASS') or 'negainoido'
 
 conn = db.connect(
@@ -51,7 +51,7 @@ def get_current_version(script_id : str) -> Tuple[int, int]:
     try:
         cur.execute('''SELECT `version`, `release` FROM apply_history
                 WHERE script_id = %s
-                ORDER BY prc_date DESC
+                ORDER BY version DESC, release DESC
                 LIMIT 1
         ''', (script_id,))
         row = cur.fetchone()
@@ -62,7 +62,7 @@ def get_current_version(script_id : str) -> Tuple[int, int]:
     finally:
         cur.close()
 
-def update_version(script_info):
+def update_version(script_info : ScriptInfo):
     cur = conn.cursor()
     try:
         cur.execute('''INSERT INTO apply_history(`script_id`, `version`, `release`)
