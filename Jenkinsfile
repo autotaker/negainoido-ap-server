@@ -46,27 +46,28 @@ pipeline {
                 node {
                     label 'slave-1'
                 }
-                steps {
-                    script {
-                        sh 'wget https://dl.google.com/cloudsql/cloud_sql_proxy.linux.amd64 -O cloud_sql_proxy'
-                        sh 'chmod +x cloud_sql_proxy'
-                        sh './cloud_sql_proxy -instances=negainoido-icfpc-platform:asia-northeast1:mysql-negainoido=tcp:3306 &'
-                        docker.image('python:3.7-slim-stretch').inside('-p 3306:3306 -v /home/jenkins:/home/jenkins') {
-                            dir('backend') {
-                                sh 'pip install pipenv'
-                                sh 'pipenv install'
-                            }
-                            dir('backend/icfpc2019/sql') {
-                                withCredentials([
-                                    usernamePassword(credentialsId: 'negainoido-mysql',
-                                                     usernameVariable: 'DB_USER',
-                                                     passwordVariable: 'DB_PASS')]) {
-                                    sh "DB_USER=$DB_USER DB_PASS=$DB_PASS pipenv run python dbapply.py"
-                                }
+            }
+            steps {
+                script {
+                    sh 'wget https://dl.google.com/cloudsql/cloud_sql_proxy.linux.amd64 -O cloud_sql_proxy'
+                    sh 'chmod +x cloud_sql_proxy'
+                    sh './cloud_sql_proxy -instances=negainoido-icfpc-platform:asia-northeast1:mysql-negainoido=tcp:3306 &'
+                    docker.image('python:3.7-slim-stretch').inside('-p 3306:3306 -v /home/jenkins:/home/jenkins') {
+                        dir('backend') {
+                            sh 'pip install pipenv'
+                            sh 'pipenv install'
+                        }
+                        dir('backend/icfpc2019/sql') {
+                            withCredentials([
+                                usernamePassword(credentialsId: 'negainoido-mysql',
+                                                    usernameVariable: 'DB_USER',
+                                                    passwordVariable: 'DB_PASS')]) {
+                                sh "DB_USER=$DB_USER DB_PASS=$DB_PASS pipenv run python dbapply.py"
                             }
                         }
                     }
                 }
+
             }
         }
 
