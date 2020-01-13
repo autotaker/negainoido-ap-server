@@ -54,7 +54,7 @@ pipeline {
                     sh './cloud_sql_proxy -instances=negainoido-icfpc-platform:asia-northeast1:mysql-negainoido=tcp:3306 &'
                     docker.image('python:3.7-slim-stretch').inside('-e HOME=/home/jenkins --network host -v /home/jenkins:/home/jenkins') {
                         dir('backend') {
-                            sh 'pip install pipenv'
+                            sh 'pip install --user pipenv'
                             sh 'pipenv install'
                         }
                         dir('backend/icfpc2019/sql') {
