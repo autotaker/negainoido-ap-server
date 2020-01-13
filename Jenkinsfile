@@ -52,14 +52,12 @@ pipeline {
                     sh 'wget https://dl.google.com/cloudsql/cloud_sql_proxy.linux.amd64 -O cloud_sql_proxy'
                     sh 'chmod +x cloud_sql_proxy'
                     sh './cloud_sql_proxy -instances=negainoido-icfpc-platform:asia-northeast1:mysql-negainoido=tcp:3306 &'
-                    docker.image('backend').inside('--network host') {
-                        dir('/app') {
-                            withCredentials([
-                                usernamePassword(credentialsId: 'negainoido-mysql',
-                                                    usernameVariable: 'DB_USER',
-                                                    passwordVariable: 'DB_PASS')]) {
-                                sh "DB_USER=$DB_USER DB_PASS=$DB_PASS pipenv run python ${workspace}/backend/icfpc2019/sql/dbapply.py"
-                            }
+                    docker.image('backend').inside('--network host') {}
+                        withCredentials([
+                            usernamePassword(credentialsId: 'negainoido-mysql',
+                                                usernameVariable: 'DB_USER',
+                                                passwordVariable: 'DB_PASS')]) {
+                            sh "ch /app; DB_USER=$DB_USER DB_PASS=$DB_PASS pipenv run python ${workspace}/backend/icfpc2019/sql/dbapply.py"
                         }
                     }
                 }
