@@ -55,7 +55,7 @@ pipeline {
                     docker.image('python:3.7-slim-stretch').inside('-e HOME=/home/jenkins --network host -v /home/jenkins:/home/jenkins') {
                         dir('backend') {
                             sh 'pip install --user pipenv'
-                            sh 'pipenv install'
+                            sh '/home/jenkins/.local/bin/pipenv install'
                         }
                         dir('backend/icfpc2019/sql') {
                             withCredentials([
