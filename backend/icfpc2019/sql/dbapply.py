@@ -18,7 +18,8 @@ conn = db.connect(
     user=DB_USER,
     password=DB_PASS,
     database=DB_NAME,
-    charset='utf8mb4'
+    charset='utf8mb4',
+    collation='utf8mb4_bin'
 )
 
 directories = ['create', 'data']
