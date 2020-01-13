@@ -52,7 +52,7 @@ pipeline {
                     sh 'wget https://dl.google.com/cloudsql/cloud_sql_proxy.linux.amd64 -O cloud_sql_proxy'
                     sh 'chmod +x cloud_sql_proxy'
                     sh './cloud_sql_proxy -instances=negainoido-icfpc-platform:asia-northeast1:mysql-negainoido=tcp:3306 &'
-                    docker.image('python:3.7-slim-stretch').inside('-p 3306:3306 -v /home/jenkins:/home/jenkins') {
+                    docker.image('python:3.7-slim-stretch').inside('--network host -v /home/jenkins:/home/jenkins') {
                         dir('backend') {
                             sh 'pip install pipenv'
                             sh 'pipenv install'
