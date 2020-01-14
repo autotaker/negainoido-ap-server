@@ -2,7 +2,8 @@ import React from 'react';
 import { BrowserRouter, Route } from 'react-router-dom'
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Navigator from './Navigator'
+import Navigator from './Navigator';
+import {App as ICFPC2019} from './icfpc2019/App';
 
 
 const Home: React.FC = () => {
@@ -13,13 +14,6 @@ const Home: React.FC = () => {
   );
 }
 
-const ICFPC2019: React.FC = () => {
-  return (
-    <div className="icfpc2019">
-      <h1>negainoido ICFPC2019</h1>
-    </div>
-  );
-}
 
 const App: React.FC = () => {
   return (
