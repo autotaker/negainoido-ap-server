@@ -1,25 +1,35 @@
 import React from 'react';
-import logo from './logo.svg';
+import { BrowserRouter, Route } from 'react-router-dom'
 import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Navigator from './Navigator'
+
+
+const Home: React.FC = () => {
+  return (
+    <div className="App">
+      <h1>Hello World negainoido!</h1>
+    </div>
+  );
+}
+
+const ICFPC2019: React.FC = () => {
+  return (
+    <div className="icfpc2019">
+      <h1>negainoido ICFPC2019</h1>
+    </div>
+  );
+}
 
 const App: React.FC = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <div>
+        <Navigator />
+        <Route exact path='/' component={Home} />
+        <Route exact path='/icfpc2019' component={ICFPC2019} />
+      </div>
+    </BrowserRouter>
   );
 }
 
