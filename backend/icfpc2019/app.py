@@ -43,7 +43,7 @@ def problems():
     conn = db.connect(**dbconfig)
     page = get_page()
     page_size = 20
-    page_offset = (page - 1) * page_size
+    page_offset = max(0, (page - 1) * page_size)
     try:
         cur = conn.cursor()
         try: 
