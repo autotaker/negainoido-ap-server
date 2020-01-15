@@ -1,8 +1,13 @@
 import React from 'react';
 import { Container, Button } from 'react-bootstrap'
 
+interface Problem {
+    name : string,
+    description : string,
+    url : string
+}
 interface State {
-    problems : any,
+    problems : Array<Problem>,
     isLoading : boolean,
     currentPage : number
 }
@@ -51,7 +56,7 @@ export class App extends React.Component<Props, State> {
             <Container>
                 <h1>Problems</h1>
                 <ul>
-                    {problems.map((x:any) => 
+                    {problems.map(x => 
                         <li key={x.name}><a href={x.url}>{x.name}</a>: {x.description}</li>
                         )}
                 </ul>
