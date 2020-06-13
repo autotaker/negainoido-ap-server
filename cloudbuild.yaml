@@ -9,13 +9,15 @@ steps:
 
 - name: 'node'
   args: ['run', 'build']
-  waitFor: ['npm-install']
+  waitFor: ['frontend-npm-install']
   id: 'frontend-npm-build'
   dir: 'frontend'
 
 - name: 'gcr.io/cloud-builders/docker'
   args: ['build', '-t', 'gcr.io/$PROJECT_ID/backend', '.']
   dir: 'backend'
+  waitFor: ['-']
+
 
 images: 
 - 'gcr.io/$PROJECT_ID/backend'
