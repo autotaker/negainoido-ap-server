@@ -14,8 +14,13 @@ steps:
   id: 'frontend-npm-build'
   dir: 'frontend'
 
+- name: 'busybox'
+  args: ['tar', 'cvf', 'frontend-$BRANCH_NAME.tgz', '.']
+  dir: 'frontend/build' 
+  waitFor: ['frontend-npm-build']
+
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['build', '-t', 'gcr.io/$PROJECT_ID/backend', '.']
+  args: ['build', '-t', 'gcr.io/$PROJECT_ID/backend:$BRANCH_NAME', '.']
   dir: 'backend'
   waitFor: ['-']
 
@@ -26,5 +31,5 @@ images:
 artifacts:
   objects:
     location: 'gs://artifacts.negainoido-icfpc-2020.appspot.com/frontend/'
-    paths: ['frontend/build/**']
+    paths: ['frontend/build/frontend-$BRANCH_NAME.tgz']
 
