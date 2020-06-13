@@ -9,6 +9,7 @@ steps:
 
 - name: 'node'
   args: ['run', 'build']
+  entrypoint: 'npm'
   waitFor: ['frontend-npm-install']
   id: 'frontend-npm-build'
   dir: 'frontend'
