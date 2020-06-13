@@ -1,18 +1,19 @@
 steps:
 
 - name: 'node'
-  args: ['npm', 'install', '--no-audit']
+  entrypoint: 'npm'
+  args: ['install', '--no-audit']
   waitFor: ['-']
   id: 'frontend-npm-install'
   dir: 'frontend'
 
 - name: 'node'
-  args: ['npm', 'run', 'build']
+  args: ['run', 'build']
   waitFor: ['npm-install']
   id: 'frontend-npm-build'
   dir: 'frontend'
 
-- node: 'gcr.io/cloud-builders/docker'
+- name: 'gcr.io/cloud-builders/docker'
   args: ['build', '-t', 'gcr.io/$PROJECT_ID/backend', '.']
   dir: 'backend'
 
