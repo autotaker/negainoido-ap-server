@@ -23,3 +23,8 @@ steps:
 images: 
 - 'gcr.io/$PROJECT_ID/backend'
 
+artifacts:
+  objects:
+    location: 'gs://artifacts.negainoido-icfpc-2020.appspot.com/frontend/'
+    paths: ['frontend/build/**']
+
