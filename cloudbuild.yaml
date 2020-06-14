@@ -1,13 +1,13 @@
 steps:
 
-- name: 'node:alpine'
+- name: 'node:slim'
   entrypoint: 'npm'
   args: ['ci', '--no-audit']
   waitFor: ['-']
   id: 'frontend-npm-install'
   dir: 'frontend'
 
-- name: 'node:alpine'
+- name: 'node:slim'
   args: ['run', 'build']
   entrypoint: 'npm'
   waitFor: ['frontend-npm-install']
