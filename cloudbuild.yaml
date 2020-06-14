@@ -2,7 +2,7 @@ steps:
 
 - name: 'node'
   entrypoint: 'npm'
-  args: ['install', '--no-audit']
+  args: ['ci', '--no-audit']
   waitFor: ['-']
   id: 'frontend-npm-install'
   dir: 'frontend'
