@@ -19,12 +19,22 @@ steps:
   dir: 'frontend/build'
   waitFor: ['frontend-npm-build']
 
+# https://cloud.google.com/cloud-build/docs/speeding-up-builds?hl=ja#using_a_cached_docker_image
+- name: 'gcr.io/cloud-builders/docker'
+  entrypoint: 'bash'
+  args:
+  - '-c'
+  - |
+    docker pull gcr.io/$PROJECT_ID/backend || exit 0
+  waitFor: ['-']
+  id: 'pull-cache'
+
 - name: 'gcr.io/cloud-builders/docker'
   args: ['build', '-t', 'gcr.io/$PROJECT_ID/backend:$BRANCH_NAME',
          '--cache-from', 'gcr.io/$PROJECT_ID/backend:latest',
          '.']
   dir: 'backend'
-  waitFor: ['-']
+  waitFor: ['pull-cache']
 
 
 images:
