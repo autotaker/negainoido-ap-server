@@ -12,7 +12,6 @@ COPY Pipfile.lock .
 RUN pipenv install
 
 ENV FLASK_ENV=production
-ENV DB_HOST=mysql
 COPY uwsgi.ini .
 COPY icfpc2019/app.py ./icfpc2019/app.py
 COPY main.py .
