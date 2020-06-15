@@ -3,8 +3,7 @@ import { BrowserRouter, Route } from 'react-router-dom'
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Navigator from './Navigator';
-import {App as ICFPC2019} from './icfpc2019/App';
-
+import Sample from './sample/App';
 
 const Home: React.FC = () => {
   return (
@@ -21,7 +20,7 @@ const App: React.FC = () => {
       <div>
         <Navigator />
         <Route exact path='/' component={Home} />
-        <Route exact path='/icfpc2019' component={ICFPC2019} />
+          <Route exact path='/icfpc2019' component={Sample} />
       </div>
     </BrowserRouter>
   );
