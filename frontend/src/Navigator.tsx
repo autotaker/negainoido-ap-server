@@ -16,6 +16,6 @@ const Navigator : React.FC = () => {
             </Navbar.Collapse>
         </Navbar>
     );
-}
+};
 export default Navigator
 

@@ -12,6 +12,7 @@ uwsgi = "*"
 mysql-connector-python = "*"
 pyyaml = "*"
 werkzeug = "*"
+flask-cors = "*"
 
 [requires]
 python_version = "3.7"
