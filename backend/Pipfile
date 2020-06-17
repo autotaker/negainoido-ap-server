@@ -13,9 +13,10 @@ mysql-connector-python = "*"
 pyyaml = "*"
 werkzeug = "*"
 flask-cors = "*"
+fastapi = {extras = ["all"],version = "*"}
 
 [requires]
 python_version = "3.7"
 
 [scripts]
-start = "python main.py"
+start = "uvicorn main:app --reload"
