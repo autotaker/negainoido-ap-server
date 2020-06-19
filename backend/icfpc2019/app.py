@@ -18,8 +18,6 @@ else:
     dbconfig['port'] = os.getenv('DB_PORT') or '3306'
 
 router = APIRouter()
-# app = Flask(__name__)
-# CORS(app)
 
 @router.get('/')
 async def index():
