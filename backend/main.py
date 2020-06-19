@@ -1,23 +1,27 @@
-from flask import Flask, jsonify
-from werkzeug.middleware.dispatcher import DispatcherMiddleware
-from werkzeug.serving import run_simple
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 import icfpc2019.app as icfpc2019
 
 
 import os
 
-app = Flask(__name__)
+app = FastAPI()
 
+@app.get('/api/v1/hello')
+async def index():
+    return {"message": "hello world!" }
 
+app.include_router(icfpc2019.router, 
+    prefix = '/api/v1/icfpc2019', 
+    tags = ['icfpc2019'])
 
-@app.route('/api/v1/hello')
-def index():
-    return jsonify({"message": "hello world!" })
+if not os.getenv('PRODUCTION'):
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins = ['*'],
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
 
-app = DispatcherMiddleware(app, {
-    '/api/v1/icfpc2019' : icfpc2019.app
-})
-
-if __name__ == "__main__":
-    run_simple('localhost', 8088, app, use_debugger=True)
 
