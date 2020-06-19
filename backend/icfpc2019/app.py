@@ -1,6 +1,7 @@
-from fastapi import APIRouter, Response
 import os
+
 import mysql.connector as db
+from fastapi import APIRouter, Response
 
 dbconfig = {
     "database": os.getenv('DB_NAME') or 'icfpc2019',

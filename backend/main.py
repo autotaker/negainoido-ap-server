@@ -1,9 +1,8 @@
+import os
+
+import icfpc2019.app as icfpc2019
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-import icfpc2019.app as icfpc2019
-
-
-import os
 
 app = FastAPI()
 
@@ -23,5 +22,3 @@ if not os.getenv('PRODUCTION'):
         allow_methods=["*"],
         allow_headers=["*"],
     )
-
-
