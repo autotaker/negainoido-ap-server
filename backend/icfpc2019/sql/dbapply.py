@@ -1,10 +1,12 @@
 
-import sys, os
 import glob
-import mysql.connector as db
 import json
-from typing import List, Tuple
+import os
+import sys
 from collections import OrderedDict
+from typing import List, Tuple
+
+import mysql.connector as db
 
 DB_HOST = os.getenv('DB_HOST') or 'localhost'
 DB_PORT = os.getenv('DB_PORT') or '3306'

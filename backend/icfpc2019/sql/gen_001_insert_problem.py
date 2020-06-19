@@ -10,5 +10,3 @@ with open('../../tmp/part-1-initial/part-1-legend.txt') as f:
       description = values(description),
       url = values(url)
     ''')
-    
-
