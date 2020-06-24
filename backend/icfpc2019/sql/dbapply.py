@@ -137,5 +137,6 @@ def apply_scripts(dirname: str):
 
 
 if __name__ == "__main__":
+    apply_sql_file("create", "000_create_apply_history.sql")
     for dirname in directories:
         apply_scripts(dirname)
