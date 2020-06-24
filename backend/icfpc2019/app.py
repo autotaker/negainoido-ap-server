@@ -13,9 +13,7 @@ dbconfig = {
 }
 
 if os.getenv("PRODUCTION"):
-    dbconfig[
-        "unix_socket"
-    ] = "/cloudsql/negainoido-icfpc-platform:asia-northeast1:mysql-negainoido"
+    dbconfig["unix_socket"] = "/cloudsql/" + os.getenv("DB_SOCK")
 else:
     dbconfig["host"] = os.getenv("DB_HOST") or "localhost"
     dbconfig["port"] = os.getenv("DB_PORT") or "3306"
