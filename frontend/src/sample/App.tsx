@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import Container from '@material-ui/core/Container';
 import Problems, {Problem} from './Problems';
 import {fecthProblems} from './api';
+import MessageSnack, {MessageType} from './MessageSnack';
 
 const ErrorContext = React.createContext({});
 
@@ -9,19 +10,45 @@ interface State {
     loading : boolean;
     page: number;
     problems: Problem[];
+    messages: Message[];
+    messageCount: number;
 }
 
-interface Error {
-    type: string;
-    message: string;
+interface Message {
+    id: number;
+    type: MessageType;
+    text: string;
 }
+
+const addMessage = (prevState: State, type: MessageType, text: string) => {
+    const messages = prevState.messages.concat({
+        id: prevState.messageCount + 1,
+        type,
+        text,
+    });
+
+    return {
+        ...prevState,
+        messages,
+        messageCount: prevState.messageCount + 1
+    };
+};
+
+const clearMessage = (prevState: State, id: number) => {
+    const messages = prevState.messages.filter((message) => message.id !== id);
+    return {
+        ...prevState,
+        messages,
+    };
+};
 
 const App = () => {
-    const [errors, setError] = useState<Error[]>([]);
     const [state, setState] = useState<State>({
         loading: false,
         page: 1,
         problems: [],
+        messages: [],
+        messageCount: 0,
     });
 
     useEffect(() => {
@@ -34,10 +61,7 @@ const App = () => {
             }));
         }).catch((e) => {
             console.log(e);
-            setError((prevErrors) => prevErrors.concat([{
-                type: 'error',
-                message: 'failed to read problems',
-            }]));
+            setState((prevState) => addMessage(prevState, 'error', 'failed to read problems'));
         });
     }, [state.page]);
 
@@ -45,9 +69,12 @@ const App = () => {
         <Container>
             <Problems problems={state.problems}/>
 
-            <ErrorContext.Provider value={{ errors, setError }}>
-                <div></div>
-            </ErrorContext.Provider>
+            {state.messages.map((message) => {
+                const handleClose = () => setState((prevState) => clearMessage(prevState, message.id));
+                return (
+                    <MessageSnack key={message.id} {...message} onClose={handleClose}/>
+                );
+            })}
         </Container>
     );
 };
