@@ -7,7 +7,7 @@ verify_ssl = true
 pylint = "*"
 
 [packages]
-mysql-connector-python = "*"
+mysql-connector-python = "==8.0.19"
 pyyaml = "*"
 fastapi = {extras = ["all"],version = "*"}
 gunicorn = "*"
