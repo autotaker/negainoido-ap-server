@@ -41,7 +41,15 @@ def apply_sql_file(dirname: str, script: str):
     with open(os.path.join(dirname, script), "r") as f:
         cur = conn.cursor()
         try:
-            cur.execute(f.read().replace("%", "%%"), multi=True)
+            sql = f.read().replace("%", "%%")
+            print("execute sql:", sql)
+            res = cur.execute(sql, multi=True)
+            for row in res:
+                if row.with_rows:
+                    print("rows", row.fetchall())
+                else:
+                    print("statement", row.statement)
+                    print("number of rows", row.rowcount)
             conn.commit()
         except Exception as e:
             conn.rollback()
