@@ -1,15 +1,14 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import Container from '@material-ui/core/Container';
-import Problems, {Problem} from './Problems';
-import {fecthProblems} from './api';
-import MessageSnack, {MessageType} from './MessageSnack';
-
-const ErrorContext = React.createContext({});
+import MessageSnack, {MessageType} from './components/MessageSnack';
+import {Switch, Route, Redirect} from 'react-router-dom'
+import ProblemsWrapper from './problems/ProblemsWrapper';
+import MessageContext from './contexts/MessageContext';
+import { useRouteMatch } from 'react-router';
+import NavBar from './components/NavBar';
+import SolutionWrapper from './solutions/SolutionsWrapper';
 
 interface State {
-    loading : boolean;
-    page: number;
-    problems: Problem[];
     messages: Message[];
     messageCount: number;
 }
@@ -42,32 +41,33 @@ const clearMessage = (prevState: State, id: number) => {
     };
 };
 
+const pages = [
+    {label: 'Problems', path: '/'},
+    {label: 'Solutions', path: '/solutions'},
+];
+
 const App = () => {
     const [state, setState] = useState<State>({
-        loading: false,
-        page: 1,
-        problems: [],
         messages: [],
         messageCount: 0,
     });
 
-    useEffect(() => {
-        setState((prevState) => ({ ...prevState, loading: true }));
-        fecthProblems(state.page).then((problems: Problem[]) => {
-            setState((prevState) => ({
-                ...prevState,
-                loading: false,
-                problems,
-            }));
-        }).catch((e) => {
-            console.log(e);
-            setState((prevState) => addMessage(prevState, 'error', 'failed to read problems'));
-        });
-    }, [state.page]);
+    const sendMessage = useCallback((type: MessageType, text: string) =>
+        setState((prevState) => addMessage(prevState, type, text)),
+        [setState]);
+    const messageContext = { sendMessage };
+    const { path } = useRouteMatch();
 
     return (
         <Container>
-            <Problems problems={state.problems}/>
+            <MessageContext.Provider value={messageContext}>
+                <NavBar pages={pages}/>
+                <Switch>
+                    <Route exact path={`${path}/solutions`} component={SolutionWrapper}/>
+                    <Route exact path={`${path}/`} component={ProblemsWrapper}/>
+                    <Redirect to={`${path}/`}/>
+                </Switch>
+            </MessageContext.Provider>
 
             {state.messages.map((message) => {
                 const handleClose = () => setState((prevState) => clearMessage(prevState, message.id));

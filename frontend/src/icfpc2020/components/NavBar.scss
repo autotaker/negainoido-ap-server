@@ -1,0 +1,27 @@
+.ww-NavBar {
+  display: flex;
+  &-tab, &-activeTab {
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-left: 2px;
+    margin-right: 2px;
+  }
+  &-activeTab {
+    border-bottom: #007bff 4px solid;
+    a, a:hover {
+      text-decoration: none;
+      color: #000;
+    }
+  }
+  &-tab {
+    border-bottom: #ccc 4px solid;
+    a, a:hover {
+      text-decoration: none;
+      color: #000;
+    }
+  }
+  li::marker {
+    display: none;
+    content: '';
+  }
+}

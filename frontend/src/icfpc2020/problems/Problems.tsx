@@ -18,7 +18,7 @@ const Problems = (props:Props) => {
     return (
         <List>
             {problems.map((problem, i) =>
-                <ListItem button>
+                <ListItem button key={problem.name}>
                     <Link href={problem.url}>{problem.name}</Link>: {problem.description}
                 </ListItem>
             )}

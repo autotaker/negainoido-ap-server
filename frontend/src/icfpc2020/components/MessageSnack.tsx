@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
 import Alert, {Color} from '@material-ui/lab/Alert';
-import Button from '@material-ui/core/Button';
 import Snackbar from '@material-ui/core/Snackbar';
 
 export type MessageType = Color;
