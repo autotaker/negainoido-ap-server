@@ -1,22 +1,46 @@
 steps:
 
-- name: 'node'
+- name: 'node:slim'
   entrypoint: 'npm'
-  args: ['install', '--no-audit']
+  args: ['ci', '--no-audit']
   waitFor: ['-']
   id: 'frontend-npm-install'
   dir: 'frontend'
 
-- name: 'node'
+- name: 'node:slim'
   args: ['run', 'build']
-  waitFor: ['npm-install']
+  entrypoint: 'npm'
+  waitFor: ['frontend-npm-install']
   id: 'frontend-npm-build'
   dir: 'frontend'
 
-- name: 'gcr.io/cloud-builders/docker'
-  args: ['build', '-t', 'gcr.io/$PROJECT_ID/backend', '.']
-  dir: 'backend'
+- name: 'busybox'
+  args: ['tar', 'cvf', 'frontend-$BRANCH_NAME.tgz', '.']
+  dir: 'frontend/build'
+  waitFor: ['frontend-npm-build']
 
-images: 
+# https://cloud.google.com/cloud-build/docs/speeding-up-builds?hl=ja#using_a_cached_docker_image
+- name: 'gcr.io/cloud-builders/docker'
+  entrypoint: 'bash'
+  args:
+  - '-c'
+  - |
+    docker pull gcr.io/$PROJECT_ID/backend:master || exit 0
+  waitFor: ['-']
+  id: 'pull-cache'
+
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '-t', 'gcr.io/$PROJECT_ID/backend:$BRANCH_NAME',
+         '--cache-from', 'gcr.io/$PROJECT_ID/backend:master',
+         '.']
+  dir: 'backend'
+  waitFor: ['pull-cache']
+
+
+images:
 - 'gcr.io/$PROJECT_ID/backend'
 
+artifacts:
+  objects:
+    location: 'gs://artifacts.$PROJECT_ID.appspot.com/frontend/'
+    paths: ['frontend/build/frontend-$BRANCH_NAME.tgz']

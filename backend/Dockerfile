@@ -1,18 +1,14 @@
-FROM python:3.7-slim-stretch
+FROM tiangolo/uvicorn-gunicorn-fastapi:python3.8-slim
 
-RUN apt-get update && apt-get install -y build-essential
+RUN apt-get update && apt-get install -y gcc
 
 RUN pip install pipenv
-ENV PIPENV_VENV_IN_PROJECT=1
 
 WORKDIR /app
 
 COPY Pipfile .
 COPY Pipfile.lock .
-RUN pipenv install
+RUN pipenv install --system
 
-ENV FLASK_ENV=production
-COPY uwsgi.ini .
 COPY icfpc2019/app.py ./icfpc2019/app.py
 COPY main.py .
-CMD ["pipenv", "run", "uwsgi", "uwsgi.ini"]

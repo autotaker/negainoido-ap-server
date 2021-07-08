@@ -3,8 +3,7 @@ import { BrowserRouter, Route } from 'react-router-dom'
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Navigator from './Navigator';
-import {App as ICFPC2019} from './icfpc2019/App';
-
+import Sample from './icfpc2020/App';
 
 const Home: React.FC = () => {
   return (
@@ -17,14 +16,14 @@ const Home: React.FC = () => {
 
 const App: React.FC = () => {
   return (
-    <BrowserRouter>
-      <div>
-        <Navigator />
-        <Route exact path='/' component={Home} />
-        <Route exact path='/icfpc2019' component={ICFPC2019} />
-      </div>
-    </BrowserRouter>
+      <BrowserRouter>
+          <div>
+              <Navigator />
+              <Route path='/icfpc2019' component={Sample} />
+              <Route exact path='/' component={Home} />
+          </div>
+      </BrowserRouter>
   );
-}
+};
 
 export default App;
